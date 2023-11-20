@@ -63,8 +63,10 @@ formatting_reply <- function(id, uri, document, options) {
             TextEditList[[length(TextEditList) + 1]] <- TextEdit
         }
     } else {
+        logger$info("adding box::use")
+        with_box <- boxify::boxify(document$content))
         logger$info("formatting R file")
-        new_text <- style_text(document$content, style, trailing_empty_line = TRUE)
+        new_text <- style_text(with_box, style, trailing_empty_line = TRUE)
         if (is.null(new_text)) {
             return(Response$new(id, list()))
         }
