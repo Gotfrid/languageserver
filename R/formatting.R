@@ -64,7 +64,7 @@ formatting_reply <- function(id, uri, document, options) {
         }
     } else {
         logger$info("adding box::use")
-        with_box <- boxify::boxify(document$content)
+        with_box <- boxify::boxify_text(document$content)
         logger$info("formatting R file")
         new_text <- style_text(with_box, style, trailing_empty_line = TRUE)
         if (is.null(new_text)) {
