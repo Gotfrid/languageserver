@@ -110,8 +110,8 @@ diagnose_file <- function(uri, content, is_rmarkdown = FALSE, globals = NULL, ca
             ),
             severity = DiagnosticSeverity$Warning,
             source = 'boxify',
-            message = 'Duplicate import expression',
-            code = 'boxify_duplicate_import'
+            message = item$message,
+            code = item$code
         )
     })
 
