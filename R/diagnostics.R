@@ -100,7 +100,22 @@ diagnose_file <- function(uri, content, is_rmarkdown = FALSE, globals = NULL, ca
     lints <- lintr::lint(path, cache = cache, text = content)
     diagnostics <- lapply(lints, diagnostic_from_lint, content = content)
     names(diagnostics) <- NULL
-    diagnostics
+
+    boxify_lints <- boxify::boxify_linter(path)
+    boxify_diagnostics <- lapply(boxify_lints, function(item) {
+        list(
+            range = range(
+                start = position(line = item$start_line - 1, character = item$start_character - 1),
+                end = position(line = item$end_line - 1, character = item$end_character)
+            ),
+            severity = DiagnosticSeverity$Warning,
+            source = 'boxify',
+            message = 'Duplicate import expression',
+            code = 'boxify_duplicate_import'
+        )
+    })
+
+    append(diagnostics, boxify_diagnostics)
 }
 
 diagnostics_callback <- function(self, uri, version, diagnostics) {
